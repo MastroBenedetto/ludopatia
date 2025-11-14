@@ -1,0 +1,24 @@
+:root {
+  /* Palette sobria ma moderna: viola + turchese */
+  --color-bg: #0f0f12;
+  --color-surface: #17171c;
+  --color-primary: #7c4dff;     /* viola moderno */
+  --color-accent: #00d1b2;      /* turchese */
+  --color-text: #e9e9ee;
+  --color-muted: #a0a0b3;
+
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  --shadow-1: 0 6px 24px rgba(0,0,0,0.25);
+  --shadow-2: 0 8px 34px rgba(0,0,0,0.35);
+
+  --maxw: 1100px;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+}

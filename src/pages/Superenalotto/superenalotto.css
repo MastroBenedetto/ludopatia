@@ -1,0 +1,90 @@
+/* ---- Dimensioni responsive dei cerchi e del testo ---- */
+:root {
+  /* diametro dei cerchi */
+  --num-size: clamp(210px, 24vw, 24vw);
+  /* grandezza dei numeri/placeholder */
+  --num-font: clamp(1.8rem, 3.4vw, 2.6rem);
+}
+
+.se {
+  padding: var(--space-6) 0;
+}
+
+.se__wrap {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+}
+
+.se__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+/* Griglia dei 6 numeri: allarghiamo un po' lo spazio */
+.se__board {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(60px, 1fr));
+  gap: var(--space-3);
+  width: 100%;
+  max-width: min(1000px, 92vw);
+  justify-items: center;
+}
+
+/* CERCHI: usano le VAR sopra ⬇ */
+.se__num {
+  width: var(--num-size);
+  height: var(--num-size);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: var(--num-font);
+  color: var(--color-text);
+  background:
+    radial-gradient(180px 120px at 80% -20%, rgba(124,77,255,0.18), transparent),
+    radial-gradient(160px 100px at -10% 80%, rgba(0,209,178,0.16), transparent),
+    var(--color-surface);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 50%;
+  box-shadow: var(--shadow-1);
+}
+
+.se__num.is-empty {
+  color: var(--color-muted);
+  border-style: dashed;
+  opacity: 0.95;
+}
+
+.se__actions {
+  display: grid;
+  place-items: center;
+}
+
+.se__btn {
+  height: 48px;
+  padding: 0 var(--space-5);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: linear-gradient(90deg, rgba(124,77,255,0.22), rgba(0,209,178,0.22));
+  color: var(--color-text);
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease;
+}
+
+.se__btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,0.26);
+  filter: brightness(1.05);
+}
+
+.se__note {
+  color: var(--color-muted);
+  text-align: center;
+  max-width: 70ch;
+  line-height: 1.6;
+  margin: 0;
+}

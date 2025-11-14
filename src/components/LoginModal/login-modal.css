@@ -1,0 +1,76 @@
+.lm__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,12,0.55);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 2000;
+}
+
+.lm__modal {
+  width: min(420px, 92vw);
+  padding: var(--space-5);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.lm__title {
+  margin: 0 0 var(--space-2);
+  font-size: 1.4rem;
+}
+.lm__hint {
+  margin: 0 0 var(--space-4);
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.lm__form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.lm__label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.lm__input {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.04);
+  color: var(--color-text);
+  outline: none;
+}
+
+.lm__error {
+  color: #ff8080;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.25);
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+}
+
+.lm__actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  margin-top: var(--space-2);
+}
+
+.lm__btn {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: linear-gradient(90deg, rgba(124,77,255,0.22), rgba(0,209,178,0.22));
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.lm__btn[disabled] { opacity: 0.6; cursor: default; }
+.lm__btn--ghost {
+  background: transparent;
+}

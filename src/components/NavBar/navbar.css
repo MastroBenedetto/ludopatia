@@ -1,0 +1,73 @@
+/* Barra fissa in alto, vetrosa, moderna */
+.navbar {
+  position: sticky; /* resta in alto quando scrolli */
+  top: 0;
+  z-index: 1000;
+  background: rgba(23, 23, 28, 0.75); /* var(--color-surface) con trasparenza */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar__logo {
+  font-size: 1.25rem;
+}
+
+.navbar__title {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 12px;
+}
+
+.navbar__link {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: var(--color-text);
+  border: 1px solid transparent;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.navbar__link:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+}
+
+.navbar__link.is-active {
+  background: linear-gradient(90deg, rgba(124,77,255,0.18), rgba(0,209,178,0.18));
+  border-color: rgba(255,255,255,0.18);
+}
+
+.navbar__auth { display: flex; align-items: center; }
+.navbar__btn {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: linear-gradient(90deg, rgba(124,77,255,0.22), rgba(0,209,178,0.22));
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.navbar__btn--logout {
+  background: rgba(255,255,255,0.06);
+}
