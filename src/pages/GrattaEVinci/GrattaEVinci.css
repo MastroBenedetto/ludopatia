@@ -1,0 +1,83 @@
+/* src/pages/Scratch/scratch.css */
+
+.scratch {
+  padding: var(--space-6) 0;
+}
+
+.scratch__wrap {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: center;
+}
+
+.scratch__form {
+  width: 100%;
+  max-width: 980px;
+  padding: var(--space-4);
+  display: grid;
+  gap: 12px;
+}
+
+.scratch__row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.scratch__checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.scratch__price {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.scratch__btn {
+  padding: 10px 16px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-text);
+  background: linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,209,178,0.12));
+}
+
+.scratch__message {
+  max-width: 980px;
+  padding: 12px;
+  color: #ffb3b3;
+  border: 1px solid rgba(255,80,80,0.2);
+}
+
+.scratch__resultGrid {
+  width: 100%;
+  max-width: 980px;
+  display: grid;
+  gap: 12px;
+}
+
+.scratch__priceResult {
+  padding: 12px;
+  border-radius: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.scratch__priceHeader {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scratch__count { color: var(--color-muted); font-weight: 600; }

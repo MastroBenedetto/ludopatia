@@ -1,0 +1,113 @@
+/* src/pages/Lotto/lotto.css */
+
+.lotto {
+  padding: var(--space-6, 48px) 0;
+}
+
+.lotto__wrap {
+  display: grid;
+  gap: var(--space-4, 20px);
+  justify-items: center;
+}
+
+.lotto__form {
+  width: 100%;
+  max-width: 980px;
+  background: var(--color-surface);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255,255,255,0.04);
+  display: grid;
+  gap: 12px;
+}
+
+.lotto__row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.lotto__radio {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.lotto__checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.lotto__wheel {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.lotto__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.lotto__btn {
+  padding: 10px 16px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-text);
+  background: linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,209,178,0.12));
+}
+
+.lotto__resultGrid {
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  gap: 12px;
+}
+
+.lotto__wheelResult {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.lotto__wheelName {
+  width: 140px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.lotto__numbers {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.lotto__num {
+  min-width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 8px;
+}

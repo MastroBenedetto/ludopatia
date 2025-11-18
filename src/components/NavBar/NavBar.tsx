@@ -48,6 +48,12 @@ export default function NavBar(){
                         > Lotto </NavLink>
                     )}
 
+                    <NavLink
+                     to="/grattaevinci"
+                     className={({ isActive })=>
+                        "navbar__link"+(isActive ? "is-active":"")
+                    }> Gratta e Vinci </NavLink>
+
                 </nav>
 
            <div className="navbar__auth">

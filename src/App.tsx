@@ -25,6 +25,7 @@ import NavBar from "./components/NavBar/NavBar";
 import HomePage from "./pages/Home/HomePage";
 import SuperenalottoPage from "./pages/Superenalotto/SuperenalottoPage";
 import Lotto from "./pages/Lotto/Lotto";
+import GrattaEVinci from "./pages/GrattaEVinci/GrattaEVinci";
 
 export default function App() {
   return (
@@ -60,8 +61,11 @@ export default function App() {
           */}
           <Route path="/superenalotto" element={<SuperenalottoPage />} />
 
-          <Route path="/lotto" element={ <ProtectedRoute> <Lotto /></ProtectedRoute>} />
-
+          {//<Route path="/lotto" element={ <ProtectedRoute> <Lotto /></ProtectedRoute>} />
+          }
+          <Route path="/lotto" element={ <Lotto />}/>
+           
+          <Route path="/grattaevinci" element={ <GrattaEVinci />}/>
 
           {/*
             3.3) Rotta "catch-all": se nessun path precedente matcha,
