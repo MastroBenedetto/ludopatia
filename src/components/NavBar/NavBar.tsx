@@ -41,19 +41,20 @@ export default function NavBar(){
                     }
                     > Superenalotto </NavLink>
                     
-                    {isAuthenticated && (
-                        <NavLink
-                            to="/lotto"
-                            className={({ isActive })=>
-                                "navbar__link" + (isActive ? " is-active": "" )
-                        }
-                        > Lotto </NavLink>
-                    )}
+                    
+                    <NavLink
+                        to="/lotto"
+                        className={({ isActive })=>
+                            "navbar__link" + (isActive ? " is-active": "" )
+                    }
+                    > Lotto </NavLink>
+
+
 
                     <NavLink
                      to="/grattaevinci"
                      className={({ isActive })=>
-                        "navbar__link"+(isActive ? "is-active":"")
+                        "navbar__link" + (isActive ? " is-active":"")
                     }> Gratta e Vinci </NavLink>
 
                 </nav>
