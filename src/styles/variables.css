@@ -21,4 +21,23 @@
   --space-4: 24px;
   --space-5: 32px;
   --space-6: 48px;
+
+   --color-bg: #0b0b0d;
+  --color-surface: #111114;
+  --color-text: #e9eef8;
+  --color-muted: #9aa4b2;
+  --accent-1: #7c4dff; /* viola */
+  --accent-2: #00d1b2; /* verde acqua */
+  --shadow-1: 0 6px 18px rgba(2,2,6,0.6);
+}
+
+/* TEMA CHIARO / COLORATO */
+.theme-light {
+  --color-bg: #fbfbff;
+  --color-surface: #ffffff;
+  --color-text: #0f1724;
+  --color-muted: #6b7280;
+  --accent-1: #6b21a8; /* colore più scuro per contrasto */
+  --accent-2: #06b6d4; /* aqua */
+  --shadow-1: 0 6px 18px rgba(15,23,36,0.06);
 }

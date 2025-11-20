@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom"
 import { useAuth } from "../../context/AuthContext";
 import LoginModal from "../../components/LoginModal/LoginModal";
 import "./navbar.css";
+import {useTheme} from "../../context/ThemeContext"
 
 /**
  * 
@@ -14,6 +15,7 @@ import "./navbar.css";
 export default function NavBar(){
     const { isAuthenticated, logout } = useAuth();
     const [openLogin, setOpenLogin] = useState(false);
+    const {theme, toggle } = useTheme();
 
     return(
         <header className="navbar">
@@ -56,15 +58,26 @@ export default function NavBar(){
 
                 </nav>
 
-           <div className="navbar__auth">
-          {!isAuthenticated ? (
-            <button className="navbar__btn" onClick={() => setOpenLogin(true)}>Login</button>
-          ) : (
-            <button className="navbar__btn navbar__btn--logout" onClick={logout}>Logout</button>
-          )}
-        </div>
-      </div>
+            <div className="navbar__right">
+                {/* THEME TOGGLE */}
+                <button
+                    aria-label="Cambia tema"
+                    title={`Tema: ${theme}`}
+                    className="navbar__themeToggle"
+                    onClick={toggle}
+                >
+                    {theme === "dark" ? "☀️" : "🌙"}
+                </button>
 
+                <div className="navbar__auth">
+                    {!isAuthenticated ? (
+                        <button className="navbar__btn" onClick={() => setOpenLogin(true)}>Login</button>
+                    ) : (
+                        <button className="navbar__btn navbar__btn--logout" onClick={logout}>Logout</button>
+                    )}
+                </div>
+             </div>
+            </div>
       {/* Modal di login */}
       <LoginModal open={openLogin} onClose={() => setOpenLogin(false)} />
     </header>

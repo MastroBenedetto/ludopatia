@@ -71,3 +71,22 @@
 .navbar__btn--logout {
   background: rgba(255,255,255,0.06);
 }
+
+/* aggiungi a src/components/NavBar/navbar.css */
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar__themeToggle {
+  height: 36px;
+  width: 44px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+}

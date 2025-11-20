@@ -19,6 +19,8 @@ import "./index.css";
 
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./router/ProtectedRoute";
+import { ThemeProvider } from "./context/ThemeContext";
+
 
 // Componenti/pagine dell'app
 import NavBar from "./components/NavBar/NavBar";
@@ -36,49 +38,51 @@ export default function App() {
         //      (es: GitHub Pages) e non puoi configurare le "rewrite" lato server.
         //    - Opzione utile: <BrowserRouter basename="/mio-sotto-percorso"> se deployi la SPA
         //      sotto una sottocartella (es: sito.it/app/).*/}
-      <BrowserRouter>
-        {/*
-          2) <NavBar /> è fuori da <Routes> perché deve restare SEMPRE visibile.
-            Così non viene rimontata cambiando pagina e mantiene eventuale stato interno.
-        */}
-        <NavBar />
-
-        {/*
-          3) <Routes> contiene le nostre "rotte".
-            Funziona come uno "switch": rende SOLO il <Route> che matcha l'URL corrente.
-        */}
-        <Routes>
+      <ThemeProvider>
+        <BrowserRouter>
           {/*
-            3.1) Route per la Home.
-                path="/" -> rende <HomePage />.
-                NOTA: in React Router v6 il match è "esatto" per default (non serve exact).
+            2) <NavBar /> è fuori da <Routes> perché deve restare SEMPRE visibile.
+              Così non viene rimontata cambiando pagina e mantiene eventuale stato interno.
           */}
-          <Route path="/" element={<HomePage />} />
+          <NavBar />
 
           {/*
-            3.2) Route per /superenalotto (placeholder per ora).
-                In futuro qui metteremo la logica/UX del generatore.
+            3) <Routes> contiene le nostre "rotte".
+              Funziona come uno "switch": rende SOLO il <Route> che matcha l'URL corrente.
           */}
-          <Route path="/superenalotto" element={<SuperenalottoPage />} />
+          <Routes>
+            {/*
+              3.1) Route per la Home.
+                  path="/" -> rende <HomePage />.
+                  NOTA: in React Router v6 il match è "esatto" per default (non serve exact).
+            */}
+            <Route path="/" element={<HomePage />} />
 
-          {//<Route path="/lotto" element={ <ProtectedRoute> <Lotto /></ProtectedRoute>} />
-          }
-          <Route path="/lotto" element={ <Lotto />}/>
-           
-          <Route path="/grattaevinci" element={ <GrattaEVinci />}/>
+            {/*
+              3.2) Route per /superenalotto (placeholder per ora).
+                  In futuro qui metteremo la logica/UX del generatore.
+            */}
+            <Route path="/superenalotto" element={<SuperenalottoPage />} />
 
-          {/*
-            3.3) Rotta "catch-all": se nessun path precedente matcha,
-                facciamo un redirect verso la Home.
+            {//<Route path="/lotto" element={ <ProtectedRoute> <Lotto /></ProtectedRoute>} />
+            }
+            <Route path="/lotto" element={ <Lotto />}/>
+            
+            <Route path="/grattaevinci" element={ <GrattaEVinci />}/>
 
-                <Navigate to="/" replace />
-                - to="/"   -> destinazione
-                - replace -> sostituisce la voce corrente nella history (utile per 404),
-                            così il "Back" non torna alla pagina inesistente.
-          */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        </BrowserRouter>
+            {/*
+              3.3) Rotta "catch-all": se nessun path precedente matcha,
+                  facciamo un redirect verso la Home.
+
+                  <Navigate to="/" replace />
+                  - to="/"   -> destinazione
+                  - replace -> sostituisce la voce corrente nella history (utile per 404),
+                              così il "Back" non torna alla pagina inesistente.
+            */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
     </AuthProvider>
   );
 }
