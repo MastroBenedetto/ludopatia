@@ -1,6 +1,6 @@
 import json
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup  # ✅ Import obbligatorio
 
 def handler(request):
     url = "https://www.adm.gov.it/portale/monopoli/giochi/giochi_num_total/superenalotto?p_p_id=it_sogei_wda_web_portlet_WebDisplayAamsPortlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage"
@@ -30,7 +30,6 @@ def handler(request):
 
     try:
         soup = BeautifulSoup(response.text, 'html.parser')
-
         vincenti = soup.find('h4', string='Combinazione Vincente')
         if not vincenti:
             raise ValueError("Combinazione Vincente non trovata")
@@ -38,22 +37,13 @@ def handler(request):
         if len(num_princ) != 6:
             raise ValueError("Numeri principali non completi")
 
-        jolly_h4 = soup.find('h4', string='Numero Jolly')
-        if not jolly_h4:
-            raise ValueError("Jolly non trovato")
-        jolly = jolly_h4.find_next('p', class_='IntBordo').find('span').get_text(strip=True)
-
-        superstar_h4 = soup.find('h4', string='Numero SuperStar estratto')
-        if not superstar_h4:
-            raise ValueError("SuperStar non trovata")
-        superstar = superstar_h4.find_next('p', class_='IntBordo').find('span').get_text(strip=True)
-
-        tutti_numeri = num_princ + [jolly, superstar]
+        jolly = soup.find('h4', string='Numero Jolly').find_next('p', class_='IntBordo').find('span').get_text(strip=True)
+        superstar = soup.find('h4', string='Numero SuperStar estratto').find_next('p', class_='IntBordo').find('span').get_text(strip=True)
 
         return {
             "statusCode": 200,
             "headers": {"Content-Type": "application/json"},
-            "body": json.dumps({"numeri": tutti_numeri})
+            "body": json.dumps({"numeri": num_princ + [jolly, superstar]})
         }
 
     except Exception as e:
