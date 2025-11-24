@@ -1,9 +1,8 @@
-from flask import Response
-import requests
 import json
+import requests
+from bs4 import BeautifulSoup
 
-
-def superenalotto():
+def handler(request):
     url = "https://www.adm.gov.it/portale/monopoli/giochi/giochi_num_total/superenalotto?p_p_id=it_sogei_wda_web_portlet_WebDisplayAamsPortlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage"
     headers = {
         "accept": "*/*",
@@ -17,18 +16,21 @@ def superenalotto():
         "sec-fetch-site": "same-origin",
         "x-requested-with": "XMLHttpRequest",
         "Referer": "https://www.adm.gov.it/portale/monopoli/giochi/giochi_num_total/superenalotto",
-
     }
+
     try:
         response = requests.post(url, data="", headers=headers, timeout=10)
         response.raise_for_status()
     except Exception as e:
-        return jsonify({"error": f"HTTP error: {str(e)}"}), 500
+        return {
+            "statusCode": 500,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps({"error": f"HTTP error: {str(e)}"})
+        }
 
     try:
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # --- 6 numeri principali ---
         vincenti = soup.find('h4', string='Combinazione Vincente')
         if not vincenti:
             raise ValueError("Combinazione Vincente non trovata")
@@ -36,24 +38,27 @@ def superenalotto():
         if len(num_princ) != 6:
             raise ValueError("Numeri principali non completi")
 
-        # --- Jolly ---
         jolly_h4 = soup.find('h4', string='Numero Jolly')
         if not jolly_h4:
             raise ValueError("Jolly non trovato")
         jolly = jolly_h4.find_next('p', class_='IntBordo').find('span').get_text(strip=True)
 
-        # --- SuperStar ---
         superstar_h4 = soup.find('h4', string='Numero SuperStar estratto')
         if not superstar_h4:
             raise ValueError("SuperStar non trovata")
         superstar = superstar_h4.find_next('p', class_='IntBordo').find('span').get_text(strip=True)
 
-        # Unisci tutti e 8 i numeri
         tutti_numeri = num_princ + [jolly, superstar]
 
-        return jsonify({
-            "numeri": tutti_numeri  # es. ["29", "47", "2", "8", "59", "65", "86", "26"]
-        })
+        return {
+            "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps({"numeri": tutti_numeri})
+        }
 
     except Exception as e:
-        return jsonify({"error": f"Parsing error: {str(e)}"}), 500
+        return {
+            "statusCode": 500,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps({"error": f"Parsing error: {str(e)}"})
+        }
