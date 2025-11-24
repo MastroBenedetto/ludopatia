@@ -1,5 +1,5 @@
 // src/pages/Lotto/LottoPage.tsx
-import React, { useMemo, useRef, useState, useCallback, useEffect } from "react";
+import  { useMemo, useRef, useState, useCallback, useEffect } from "react";
 import "@/pages/Lotto/lotto.css"; // assicurati il path corrisponda al tuo alias / struttura
 
 import { wheelsList } from "../../data/wheels";

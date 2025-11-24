@@ -1,11 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import  { useCallback, useEffect, useRef, useState } from "react";
 import "./superenalotto.css";
 
-type GenResult = {
-  mains: number[];         // up to 6 numeri principali (ordinati)
-  special1?: number;       // Jolly (se presente)
-  special2?: number;       // SuperStar (se presente)
-};
+
 
 const MAX_NUM = 90;
 const randInt = (min: number, max: number) =>

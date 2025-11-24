@@ -7,7 +7,7 @@
 // - gestisce una rotta di fallback (404 -> redirect alla Home)
 // -------------------------------------------------------------
 
-import React from "react";
+
 
 // BrowserRouter: abilita il "client-side routing" usando la History API del browser.
 // Routes/Route: dichiarano la tabella di routing (path -> quale componente rendere).
@@ -18,7 +18,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./router/ProtectedRoute";
+//import ProtectedRoute from "./router/ProtectedRoute";
 import { ThemeProvider } from "./context/ThemeContext";
 
 

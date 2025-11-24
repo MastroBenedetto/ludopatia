@@ -1,5 +1,5 @@
 // src/pages/Scratch/ScratchPage.tsx
-import React, { useState } from "react";
+import  { useState } from "react";
 import "@/pages/GrattaEVinci/GrattaEVinci.css";
 
 import { scratchByPrice, scratchPrices } from "../../data/scratchcards";
