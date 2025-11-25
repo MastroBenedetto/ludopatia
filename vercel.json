@@ -6,6 +6,9 @@
   "routes": [
     { "src": "/api/superenalotto", "dest": "api/superenalotto.py" },
     { "src": "/api/lotto", "dest": "api/lotto.py" },
+    { "src": "/api/calendario-lotto", "dest": "api/calendario-lotto.py" },
+    { "src": "/api/ritardatari", "dest": "api/ritardatari.py" },
+    { "src": "/api/ritardatari-assoluti", "dest": "api/ritardatari-assoluti.py" },
     { "src": "/(.*)", "dest": "dist/$1" }
   ]
 }
