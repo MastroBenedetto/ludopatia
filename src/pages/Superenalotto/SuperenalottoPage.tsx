@@ -1,7 +1,10 @@
+// src/pages/Superenalotto/SuperenalottoPage.tsx
 import  { useCallback, useEffect, useRef, useState } from "react";
 import "./superenalotto.css";
 
 
+// API response shape
+type ApiResponse = { numeri: string[] } | { error?: string };
 
 const MAX_NUM = 90;
 const randInt = (min: number, max: number) =>
@@ -9,6 +12,8 @@ const randInt = (min: number, max: number) =>
 
 export default function SuperenalottoPage() {
   const [count, setCount] = useState<number>(6);
+
+  // displayed numbers reveal state (as before)
   const [displayedMains, setDisplayedMains] = useState<(number | null)[]>(
     () => Array(6).fill(null)
   );
@@ -16,17 +21,66 @@ export default function SuperenalottoPage() {
     () => []
   );
   const [loading, setLoading] = useState(false);
-
-  // ref per tenere traccia di tutti i timeout così li possiamo pulire
   const timeoutsRef = useRef<number[]>([]);
 
+  // nuova parte: numeri estratti oggi da API
+  const [drawLoading, setDrawLoading] = useState<boolean>(true);
+  const [todayDraw, setTodayDraw] = useState<number[] | null>(null);
+
   useEffect(() => {
+    // cleanup on unmount
     return () => {
-      // cleanup on unmount
-      timeoutsRef.current.forEach(id => clearTimeout(id));
+      timeoutsRef.current.forEach((id) => clearTimeout(id));
       timeoutsRef.current = [];
     };
   }, []);
+
+  // fetch dei numeri estratti oggi da endpoint vercel python
+  useEffect(() => {
+    let canceled = false;
+    setDrawLoading(true);
+    setTodayDraw(null);
+
+    fetch("/api/superenalotto")
+      .then(async (res) => {
+        if (!res.ok) {
+          // non mostrare errori all'utente: silenziosamente skip
+          throw new Error(`HTTP ${res.status}`);
+        }
+        // proviamo a parsare JSON; se fallisce viene catturato e silenziato
+        const text = await res.text();
+        try {
+          const json = JSON.parse(text) as ApiResponse;
+          return json;
+        } catch (e) {
+          // risposta non JSON (es. HTML) -> non vogliamo mostrare errori in UI
+          console.warn("API /api/superenalotto non ha restituito JSON valido:", e);
+          throw new Error("Invalid JSON");
+        }
+      })
+      .then((json) => {
+        if (canceled) return;
+        if ((json as any).numeri && Array.isArray((json as any).numeri)) {
+          // normalizza in numeri
+          const nums = (json as ApiResponse & { numeri: string[] }).numeri
+            .map((s) => Number(String(s).trim()))
+            .filter((n) => !Number.isNaN(n));
+          if (nums.length > 0) setTodayDraw(nums);
+        }
+      })
+      .catch((err) => {
+        // silenzioso: non mostriamo messaggi all'utente.
+        // log in console per debugging developer, ma non impostiamo stato errore visibile.
+        console.debug("fetch /api/superenalotto failed (silenced):", err?.message || err);
+      })
+      .finally(() => {
+        if (!canceled) setDrawLoading(false);
+      });
+
+    return () => {
+      canceled = true;
+    };
+  }, []); // esegui solo al mount
 
   // utility: pick n unique numbers from pool (mutates pool)
   const pickUniqueFromPool = (pool: number[], n: number) => {
@@ -62,18 +116,18 @@ export default function SuperenalottoPage() {
     setLoading(true);
 
     // pulisci timeouts precedenti
-    timeoutsRef.current.forEach(id => clearTimeout(id));
+    timeoutsRef.current.forEach((id) => clearTimeout(id));
     timeoutsRef.current = [];
 
     // reveal one-by-one: delay base (ms)
     const baseDelay = 350; // tempo tra i reveal dei numeri principali
     const initialDelay = 220; // piccolo offset iniziale
 
-    // reveal mains one by one in their positions: we reveal only the first mainCount slots
+    // reveal mains one by one in their positions
     for (let i = 0; i < mainCount; i++) {
       const delay = initialDelay + i * baseDelay;
       const t = window.setTimeout(() => {
-        setDisplayedMains(prev => {
+        setDisplayedMains((prev) => {
           const copy = prev.slice();
           copy[i] = mains[i];
           return copy;
@@ -88,7 +142,7 @@ export default function SuperenalottoPage() {
       for (let j = 0; j < specialCount; j++) {
         const delay = specialsStart + j * 400;
         const t = window.setTimeout(() => {
-          setDisplayedSpecials(prev => {
+          setDisplayedSpecials((prev) => {
             const copy = prev.slice();
             copy[j] = specials[j];
             return copy;
@@ -114,11 +168,42 @@ export default function SuperenalottoPage() {
 
   const handleClear = () => {
     // pulisci timeout e reset UI
-    timeoutsRef.current.forEach(id => clearTimeout(id));
+    timeoutsRef.current.forEach((id) => clearTimeout(id));
     timeoutsRef.current = [];
     setDisplayedMains(Array(6).fill(null));
     setDisplayedSpecials([]);
     setLoading(false);
+  };
+
+  // helper: render today's draw nicely
+  const renderTodayDraw = () => {
+    // Show the draw only if we have data (todayDraw non-null and array length>0)
+    if (!todayDraw || !Array.isArray(todayDraw) || todayDraw.length === 0) return null;
+
+    // if there are >=6 numbers, mostro primi 6 come principali e gli eventuali extra come speciali
+    const mains = todayDraw.slice(0, 6);
+    const extras = todayDraw.slice(6);
+
+    return (
+      <div className="se__drawBlock">
+        <div className="se__drawNumbers">
+          {mains.map((n, i) => (
+            <div key={`dmain-${i}`} className="se__drawNum">{n}</div>
+          ))}
+        </div>
+
+        {extras.length > 0 && (
+          <div className="se__drawExtras">
+            {extras.map((n, i) => (
+              <div key={`dextra-${i}`} className="se__drawExtraCard">
+                <div className="se__drawExtraLabel">{i === 0 ? "Jolly" : "SuperStar"}</div>
+                <div className="se__drawNum se__drawNum--special">{n}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -146,16 +231,14 @@ export default function SuperenalottoPage() {
           </label>
 
           <div className="se__actions">
-            <button className="se__btn se__btn--ghost" onClick={handleGenerate} disabled={loading}>
+            <button className="se__btn" onClick={handleGenerate} disabled={loading}>
               {loading ? "Generando…" : "Genera"}
             </button>
-            <button className="se__btn se__btn--ghost" onClick={handleClear} disabled={loading === true && displayedMains.every(v => v === null) === false}>
-              Pulisci
-            </button>
+            <button className="se__btn se__btn--ghost" onClick={handleClear}>Pulisci</button>
           </div>
         </div>
 
-        {/* Risultati */}
+        {/* Risultati (reveal sequenziale) */}
         <div className="se__resultArea">
           <div className="se__board" role="list" aria-label="Numeri generati">
             {displayedMains.map((val, i) => (
@@ -177,11 +260,21 @@ export default function SuperenalottoPage() {
               </div>
             ))}
           </div>
-        </div>
 
-        <p className="se__note">
-          I numeri sono estratti casualmente da 1 a 90, senza duplicati tra principali e speciali.
-        </p>
+          <p className="se__note">I numeri sono estratti casualmente da 1 a 90, senza duplicati tra principali e speciali.</p>
+
+          {/* Nuova sezione: estrazione odierna */}
+          { /* Mostriamo la sezione solo se abbiamo realmente dei numeri (todayDraw non null e non vuoto) */ }
+          {todayDraw && todayDraw.length > 0 && (
+            <section className="se__todayDraw">
+              <h3 className="se__drawTitle">Numeri estratti oggi</h3>
+              {renderTodayDraw()}
+              <div style={{ marginTop: 8, color: "var(--color-muted)", fontSize: 13 }}>
+                Dati forniti da <code>/api/superenalotto</code> (endpoint serverless).
+              </div>
+            </section>
+          )}
+        </div>
       </section>
     </main>
   );
