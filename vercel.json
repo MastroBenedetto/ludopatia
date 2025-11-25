@@ -8,7 +8,6 @@
     { "src": "/api/lotto", "dest": "api/lotto.py" },
     { "src": "/api/calendario-lotto", "dest": "api/calendario-lotto.py" },
     { "src": "/api/ritardatari", "dest": "api/ritardatari.py" },
-    { "src": "/api/ritardatari-assoluti", "dest": "api/ritardatari-assoluti.py" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "src": "/api/ritardatari-assoluti", "dest": "api/ritardatari-assoluti.py" }
   ]
 }
