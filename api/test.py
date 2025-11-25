@@ -1,7 +1,10 @@
-def handler(request):
-    # endpoint di sanity-check minimale: non fa import esterni
-    return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": '{"ok": true, "msg": "health check OK"}'
-    }
+from http.server import BaseHTTPRequestHandler
+import json
+
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        response = {"ok": True, "msg": "health check OK"}
+        self.wfile.write(json.dumps(response).encode())
