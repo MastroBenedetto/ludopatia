@@ -4,7 +4,7 @@
     { "src": "package.json", "use": "@vercel/static-build" }
   ],
   "routes": [
-    { "src": "/api/test", "dest": "api/test.py" },
+    { "src": "/api/superenalotto", "dest": "api/superenalotto.py" },
     { "src": "/api/lotto", "dest": "api/lotto.py" },
     { "src": "/(.*)", "dest": "dist/$1" }
   ]
