@@ -238,3 +238,63 @@
   font-size: 0.95rem;
   text-align: center;
 }
+
+
+/* board: usa auto-fit per adattare il numero di colonne alla larghezza */
+.se__board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 0;
+  /* rimozione overflow-x per evitare la scrollbar */
+  overflow-x: visible;
+}
+
+/* draw numbers (estrazione odierna) - permetti wrapping */
+.se__drawNumbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+  gap: 8px;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  padding: 6px 0;
+  box-sizing: border-box;
+}
+
+/* assicura che i pallini siano ridimensionabili e non superino lo schermo */
+.se__num,
+.se__drawNum,
+.se__specialNum,
+.se__drawNum--special {
+  width: clamp(44px, 10vw, 88px);
+  height: clamp(44px, 10vw, 88px);
+  font-size: clamp(0.95rem, 3.2vw, 1.6rem);
+}
+
+/* su mobile rendi il gap più piccolo e impila comodamente */
+@media (max-width: 639px) {
+  .se__board {
+    grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
+    gap: 8px;
+  }
+  .se__drawNumbers {
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    gap: 6px;
+  }
+
+  /* riduci padding della sezione per togliere overflow */
+  .se__resultArea, .se__todayDraw {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  /* assicurati che i special card non forzino larghezze */
+  .se__specialCard, .se__drawExtraCard {
+    min-width: 0;
+  }
+}
