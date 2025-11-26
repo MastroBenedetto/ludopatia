@@ -1,107 +1,230 @@
-/* src/pages/Lotto/lotto.css */
+/* src/pages/Lotto/lotto.css
+   FULL stylesheet per la pagina Lotto
+   - pannelli collapsible (Generazione / Estrazioni passate)
+   - form, checkbox, actions
+   - calendario mese/giorni
+   - risultati: UNA RIGA = UNA RUOTA con numeri affiancati
+   - blocks extra (numeri vincenti, simbolotti, overtime)
+   - responsive / tema-safe (usa variabili :root)
+*/
 
+/* ---------- Layout generale pagina ---------- */
 .lotto {
-  padding: var(--space-6, 48px) 0;
+  padding: 28px 0;
 }
-
 .lotto__wrap {
-  display: grid;
-  gap: var(--space-4, 20px);
-  justify-items: center;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.lotto__form {
+/* Titolo pagina */
+.lotto__wrap h1 {
+  margin: 0 0 14px 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+  color: var(--color-text);
+}
+
+/* ---------- Pannelli (collapsible) ---------- */
+.lotto__panel {
+  margin-bottom: 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.lotto__panelHeader {
   width: 100%;
-  max-width: 980px;
-  background: var(--color-surface);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255,255,255,0.04);
-  display: grid;
-  gap: 12px;
-}
-
-.lotto__row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.lotto__radio {
-  display: flex;
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
   gap: 8px;
-  align-items: center;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px solid rgba(255,255,255,0.03);
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.lotto__chev { transition: transform 200ms ease; }
+.lotto__chev.open { transform: rotate(180deg); }
+.lotto__panelBody {
+  padding: 12px;
+  box-sizing: border-box;
 }
 
+/* ---------- Form generazione ---------- */
+.lotto__form {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  gap: 12px;
+}
+.lotto__row {
+  display:flex;
+  gap: 12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+/* radio labels */
+.lotto__radio {
+  display:inline-flex;
+  gap: 8px;
+  align-items:center;
+  color: var(--color-text);
+}
+
+/* checkboxes wheel list */
 .lotto__checkboxes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 8px;
-  width: 100%;
-}
-
-.lotto__wheel {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 8px 10px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.03);
-}
-
-.lotto__actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
   margin-top: 8px;
 }
-
-.lotto__btn {
-  padding: 10px 16px;
-  height: 44px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.12);
-  cursor: pointer;
-  font-weight: 600;
+.lotto__wheel {
+  display:flex;
+  gap: 8px;
+  align-items:center;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: transparent;
   color: var(--color-text);
-  background: linear-gradient(90deg, rgba(124,77,255,0.12), rgba(0,209,178,0.12));
 }
 
-.lotto__resultGrid {
-  width: 100%;
-  max-width: 1000px;
-  display: grid;
-  gap: 12px;
+/* actions (buttons) */
+.lotto__actions {
+  margin-top: 12px;
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.lotto__btn {
+  padding: 8px 14px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(90deg, var(--accent-1, #7c4dff), var(--accent-2, #00d1b2));
+  color: white;
+}
+.lotto__btn[disabled] {
+  opacity: 0.6;
+  cursor: default;
 }
 
-.lotto__wheelResult {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.03);
+/* small helpers */
+.lotto__smallBtn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.04);
+  color: var(--color-text);
+  cursor: pointer;
 }
-
-.lotto__wheelName {
-  width: 140px;
+.lotto__monthLabel {
   font-weight: 700;
   color: var(--color-text);
 }
 
-.lotto__numbers {
-  display: flex;
+/* ---------- Calendar (days) ---------- */
+.lotto__calendarWrap {
+  padding: 8px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.lotto__calendarHeader {
+  display:flex;
   gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
+  align-items:center;
+  justify-content:center;
+}
+.lotto__calendar {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
+  gap: 8px;
+}
+.lotto__dayBtn {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  min-height: 40px;
+  text-align: center;
+}
+.lotto__dayBtn.is-selected {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  border-color: transparent;
+}
+.lotto__smallInfo {
+  color: var(--color-muted);
+  margin-top: 8px;
 }
 
+/* ---------- Risultati: design a RIGA per ruota ---------- */
+/* Container: lista verticale (una riga per ruota) */
+.lotto__resultGrid {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  box-sizing: border-box;
+}
+
+/* Singola riga: nome a sinistra, numeri a destra affiancati */
+.lotto__wheelResult {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px solid rgba(255,255,255,0.03);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 72px;
+}
+
+/* Nome ruota: colonna sinistra con larghezza fissa (adatta) */
+.lotto__wheelName {
+  flex: 0 0 160px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Adatta larghezza nome su schermi medi/piccoli */
+@media (max-width: 1024px) {
+  .lotto__wheelName { flex: 0 0 140px; font-size: 0.98rem; }
+}
+@media (max-width: 768px) {
+  .lotto__wheelName { flex: 0 0 120px; font-size: 0.95rem; }
+}
+
+/* Colonna numeri: flex row che wrappa se serve */
+.lotto__numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1 1 auto;
+  min-height: 48px;
+}
+
+/* I pallini (numeri) */
 .lotto__num {
-  min-width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -109,33 +232,150 @@
   border: 1px solid rgba(255,255,255,0.06);
   font-weight: 700;
   font-size: 1rem;
-  padding: 8px;
-}
-/* animazioni per numeri */
-@keyframes appearScale {
-  from { opacity: 0; transform: scale(0.6); }
-  to   { opacity: 1; transform: scale(1); }
+  box-sizing: border-box;
 }
 
-.se__num.is-visible {
-  animation: appearScale 360ms cubic-bezier(.2,.9,.3,1);
+/* versione per mobile più compatta */
+@media (max-width: 480px) {
+  .lotto__num { width: 44px; height: 44px; min-width: 44px; font-size: 0.95rem; }
+  .lotto__wheelResult { gap: 10px; padding: 10px; }
 }
 
-.se__num--special {
-  animation: appearScale 420ms cubic-bezier(.2,.9,.3,1);
+/* Placeholder quando vuoto */
+.lotto__num.is-empty {
+  opacity: 0.65;
+  color: var(--color-muted);
+  border-style: dashed;
 }
 
-/* Pulsing / shimmer optional while loading */
-.loading-placeholder {
-  width: 100%;
-  height: 8px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite;
-  border-radius: 6px;
+/* ---------- Draw result / Extras (numeri vincenti, simbolotti, overtime) ---------- */
+.lotto__drawResult {
+  margin-top: 14px;
+}
+.lotto__resultGrid { /* ensure spacing if reused */ }
+.lotto__meta { margin-top: 6px; color: var(--color-muted); font-size: 0.9rem; }
+
+/* Extras block row */
+.lotto__extras {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.lotto__extraBlock {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px solid rgba(255,255,255,0.03);
+  min-width: 160px;
+  box-sizing: border-box;
+}
+.lotto__numbers--inline {
+  display:flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
-@keyframes shimmer {
-  from { background-position: 200% 0; }
-  to { background-position: -200% 0; }
+/* ---------- Responsive: molto stretto (telefono) ---------- */
+@media (max-width: 420px) {
+  .lotto__wheelResult {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .lotto__wheelName {
+    flex: none;
+    width: 100%;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .lotto__numbers { justify-content: flex-start; padding-top: 8px; }
 }
+
+/* ---------- Accessibility / Focus ---------- */
+.lotto__dayBtn:focus {
+  outline: 2px solid rgba(99,102,241,0.35);
+  outline-offset: 2px;
+  border-color: rgba(99,102,241,0.45);
+}
+
+/* ---------- Visual polish ---------- */
+.lotto__wheelResult:hover {
+  transform: translateY(-2px);
+  transition: transform 140ms ease;
+}
+
+/* Ensure headers/titles visible in dark/light themes */
+.lotto__wrap h1,
+.lotto__panelHeader,
+.lotto__monthLabel,
+.lotto__dayBtn,
+.lotto__smallBtn,
+.lotto__wheelName {
+  color: var(--color-text) !important;
+}
+
+/* Avoid horizontal overflow caused by numbers (they will wrap) */
+.lotto__resultGrid,
+.lotto__wheelResult,
+.lotto__numbers {
+  overflow: visible;
+}
+
+/* ---------- End of file ---------- */
+/* ===== Fix visibilità pannelli / card in THEME LIGHT =====
+   Incollare alla fine di src/pages/Lotto/lotto.css
+*/
+
+.theme-light .lotto__panelHeader,
+.theme-light .lotto__panelBody,
+.theme-light .lotto__panel,
+.theme-light .lotto__calendarWrap,
+.theme-light .lotto__wheelResult,
+.theme-light .lotto__extraBlock {
+  /* sfondo più chiaro ma contrastato rispetto al root light */
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.98));
+  /* bordo/contorno visibile su fondo chiaro */
+  border: 1px solid rgba(0,0,0,0.06);
+  /* leggero shadow per staccare dal background */
+  box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+}
+
+/* Titoli/label in light theme: testo scuro e leggibile */
+.theme-light .lotto__panelHeader,
+.theme-light .lotto__monthLabel,
+.theme-light .lotto__wheelName,
+.theme-light .lotto__dayBtn,
+.theme-light .lotto__smallBtn {
+  color: #0f1724 !important; /* testo scuro */
+}
+
+/* Day buttons in light: border + hover */
+.theme-light .lotto__dayBtn {
+  background: #fff;
+  border: 1px solid rgba(15,23,36,0.06);
+  color: #0f1724;
+}
+.theme-light .lotto__dayBtn.is-selected {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Numeri: contrasto su card chiara */
+.theme-light .lotto__num {
+  background: #f7f7f9;
+  border: 1px solid rgba(15,23,36,0.06);
+  color: #0f1724;
+}
+
+/* Pulsanti principali in light (se serve override) */
+.theme-light .lotto__btn {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  border: 1px solid rgba(15,23,36,0.06);
+}
+
+/* Se vuoi rendere il root leggermente meno "piatto" su light, puoi modificare il body bg (opzionale):
+.theme-light body { background: #f3f4f6; }
+*/
